@@ -3,9 +3,10 @@
  * home/Home.tsx
 **/
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Stars } from "@react-three/drei";
+import { useThree } from "@react-three/fiber";
 import Moon from 'components/threejs/Moon';
 import styles from './home.module.scss';
 import clsx from 'clsx';
@@ -40,59 +41,107 @@ function Home() {
   }, []);
 
   // 별 배경 마우스위치에 따른 움직임 이벤트
+  const starPositions = useMemo(
+    () =>
+      Array.from({ length: 150 }).map((_, i) => ({
+        id: i,
+        top: Math.random() * 100,
+        left: Math.random() * 100,
+        size: Math.random() * 6 + 2,
+      })),
+    []
+  );
+
   useEffect(() => {
-    const stars = document.querySelectorAll('[data-star]');
-    const handleMouseMove = (e: MouseEvent) => {
-      const {innerWidth, innerHeight} = window;
+    if (isMobile) return;
 
-      // 마우스가 중심에서 얼마나 벗어났는지
-      const offsetX = (e.clientX - innerWidth / 2) / 30;
-      const offsetY = (e.clientY - innerHeight / 2) / 30;
+    const starEls = document.querySelectorAll<HTMLElement>('[data-star]');
+    let raf = 0;
+    let lastX = 0;
+    let lastY = 0;
 
-      stars.forEach((star, i) => {
-        if (!(star instanceof HTMLElement)) return;// HTMLElement만 처리하여 타입 안정성 확보
+    const update = () => {
+      const { innerWidth, innerHeight } = window;
+      const offsetX = (lastX - innerWidth / 2) / 30;
+      const offsetY = (lastY - innerHeight / 2) / 30;
 
-        const speed = (i % 5 + 1) * 0.4;// 별마다 속도 다르게 주기
-        star.style.transform = `translate(${offsetX * speed}px, ${offsetY * speed}px)`;
+      starEls.forEach((el, i) => {
+        const speed = (i % 5 + 1) * 0.4;
+        el.style.transform = `translate(${offsetX * speed}px, ${offsetY * speed}px)`;
       });
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
-
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
-
-  // 스크롤에 따른 타이틀 및 컨텐츠 애니메이션
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const homeSection = document.getElementById('home');
-
-      if (!homeSection) return;
-
-      // 타이틀 움직임 범위
-      setTitleOffset(Math.min(scrollY * 0.6));
-
-      // home 위치값
-      const homeTop = homeSection.offsetTop;
-      const homeHeight = homeSection.offsetHeight;
-      const homeBottom = homeTop + homeHeight;
-      const scrollMiddle = scrollY + window.innerHeight / 2;
-
-      // title 숨기기
-      setHideTitle(scrollMiddle >= (homeTop + 800));
-
-      // home 영역의 중간에 오면 content 보이게
-      setShowContent(scrollMiddle >= homeTop + 700);
-
-      // fixed 여부
-      setIsTitleFixed(scrollY < homeBottom);
+    const handleMouseMove = (e: MouseEvent) => {
+      lastX = e.clientX;
+      lastY = e.clientY;
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(update);
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, [isMobile]);
+
+
+  // 스크롤에 따른 타이틀 및 컨텐츠 애니메이션
+  useEffect(() => {
+    let raf = 0;
+
+    const handleScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const scrollY = window.scrollY;
+        const homeSection = document.getElementById('home');
+        if (!homeSection) return;
+
+        setTitleOffset(scrollY * 0.6);
+
+        const homeTop = homeSection.offsetTop;
+        const homeBottom = homeTop + homeSection.offsetHeight;
+        const scrollMiddle = scrollY + window.innerHeight / 2;
+
+        setHideTitle(prev => {
+          const next = scrollMiddle >= homeTop + 800;
+          return prev === next ? prev : next;
+        });
+
+        setShowContent(prev => {
+          const next = scrollMiddle >= homeTop + 700;
+          return prev === next ? prev : next;
+        });
+
+        setIsTitleFixed(prev => {
+          const next = scrollY < homeBottom;
+          return prev === next ? prev : next;
+        });
+
+      });
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
+
+  // 달 움직임 컨트롤
+  function Controls() {
+    const { invalidate } = useThree();
+    return (
+      <OrbitControls
+        enableZoom={false}
+        enablePan={false}
+        enableDamping={false}
+        onChange={() => invalidate()}
+      />
+    );
+  }
 
   // 다크모드 테마 적용
   useEffect(() => {
@@ -132,28 +181,35 @@ function Home() {
             ) : (
               <>
                 <p className={styles.moonInfo}><i className={styles.icon}></i>드래그로 달을 움직여 보세요 !</p>
+
                 <Canvas
                   style={{ position: "absolute", top: 0, left: 0 }}
                   camera={{ position: [0, 0, 5], fov: 60 }}
+                  gl={{ powerPreference: "low-power", antialias: false, toneMappingExposure: 1.5 }}// 저전력 GPU 선호, 안티앨리어싱 끄면 부하 감소, 전체노출(밝기)값
+                  frameloop="demand" //기본 60fps 렌더 끔
+                  dpr={[1, 1.5]} //과도한 픽셀 렌더 줄임
                 >
-                  <ambientLight intensity={0.5} />
-                  <directionalLight position={[5, 5, 5]} />
+
+                  <ambientLight intensity={1.5} />{/* 전체 기본광 */}
+                  <directionalLight position={[4, 4, 4]} intensity={1.8} color="#ffffff" />{/* 달 형태를 살리는 메인 라이트 */}
+                  <directionalLight position={[-3, -2, 2]} intensity={0.8} />{/* 반대쪽 보조광 (너무 어두워지는 것 방지) */}
                   <Moon />
-                  <OrbitControls enableZoom={false} enablePan={false} />
+                  <Controls />
                 </Canvas>
               </>
             )}
           </div>
           <div className={styles.starsBox}>
-            {Array.from({length: 150}).map((_, i) => (
-              <div className={styles.star}
-                key={i}
+            {starPositions.map((s) => (
+              <div
+                className={styles.star}
+                key={s.id}
                 data-star
                 style={{
-                  top: `${Math.random() * 100}%`,
-                  left: `${Math.random() * 100}%`,
-                  width: `${Math.random() * 6 + 2}px`,
-                  height: `${Math.random() * 6 + 2}px`,
+                  top: `${s.top}%`,
+                  left: `${s.left}%`,
+                  width: `${s.size}px`,
+                  height: `${s.size}px`,
                 }}
               />
             ))}
@@ -177,10 +233,27 @@ function Home() {
         {/* 컨텐츠 */}
         <div className={clsx(styles.homeContent, showContent && styles.visible)}>
           <div className={styles.homeContentInner}>
-            <p>5년 이상의 퍼블리싱 경험을 바탕으로, <strong>UI 완성도와 협업에 강점</strong>을 가진 JavaScript 기반 프론트엔드 개발자 박수휘입니다.</p>
+            {/* <p>5년 이상의 퍼블리싱 경험을 바탕으로, <strong>UI 완성도와 협업에 강점</strong>을 가진 JavaScript 기반 프론트엔드 개발자 박수휘입니다.</p>
             <p>웹 퍼블리셔로 출발해 <strong>Vue.js 기반의 컴포넌트 개발 경험</strong>을 쌓으며 프론트엔드로 전향했습니다.</p>
             <p><strong>현재는 React.js와 TypeScript로 기술 영역</strong>을 확장하며 컴포넌트 구조와 상태 관리 패턴을 익히고 있습니다.</p>
-            <p>사용자 중심의 UI를 구조적으로 설계하고 개선하는 데 강점이 있습니다.</p>
+            <p>사용자 중심의 UI를 구조적으로 설계하고 개선하는 데 강점이 있습니다.</p> */}
+
+            <p>
+              5년 이상의 퍼블리싱 경험과 <strong>Vue.js 실무 개발 경험</strong>을 바탕으로,<br/>
+              사용자 역할(대표/관리자/사원)과 데이터 흐름을 고려한 <strong>B2B HR 서비스 UI</strong>를 구현해온
+              프론트엔드 개발자 박수휘입니다.
+            </p>
+            <p>
+              조직·인사·근태·신청/승인 등 <strong>업무 시스템 화면</strong>을 개발하며,
+              복잡한 폼/리스트 UI를 <strong>유지보수 관점</strong>에서 구조화하고 개선해왔습니다.
+            </p>
+            <p>
+              React와 TypeScript는 개인 프로젝트를 통해 컴포넌트 구조와 상태 관리 패턴을 학습하며
+              기술 확장 기반을 다지고 있습니다.
+            </p>
+            <p>
+              디자인 구현에 그치지 않고, 협업을 고려한 UI 구조 설계와 품질 개선에 강점이 있습니다.
+            </p>
           </div>
         </div>
         {/* //컨텐츠 */}
