@@ -24,7 +24,25 @@
   }
 
   &Inner {
+    position: relative;
     padding-inline: min(5vw, 10.5rem);
+
+    .textRefer {
+      position: absolute;
+      right: 9rem;
+      bottom: -3rem;
+      @include mixin.font($gray_200 '1.2rem' right);
+
+      @include mixin.media(L) {
+        display: block;
+        position: initial;
+        margin: .6rem 0 -1.6rem;
+      }
+
+      @include mixin.media(S) {
+        margin: 1rem 0 -1rem;
+      }
+    }
   }
 
   &Sub {
@@ -127,23 +145,6 @@
         @include mixin.media(S) {
           font-size: 1.6rem;
         }
-      }
-    }
-
-    .textRefer {
-      position: absolute;
-      right: 2rem;
-      bottom: 1.6rem;
-      @include mixin.font($gray_200 '1.2rem' right);
-
-      @include mixin.media(L) {
-        display: block;
-        position: initial;
-        margin: .6rem 0 -1.6rem;
-      }
-
-      @include mixin.media(S) {
-        margin: 1rem 0 -1rem;
       }
     }
   }
