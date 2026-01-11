@@ -7,16 +7,32 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Runtime
 node_modules
 dist
 dist-ssr
 *.local
 
-# Editor directories and files
+# Firebase
+.firebase/
+
+# Env files
+.env
+.env.*.local
+
+# macOS
+.DS_Store
+**/.DS_Store
+Icon?
+ehthumbs.db
+
+# Windows
+Thumbs.db
+
+# Editor
 .vscode/*
 !.vscode/extensions.json
 .idea
-.DS_Store
 *.suo
 *.ntvs*
 *.njsproj
