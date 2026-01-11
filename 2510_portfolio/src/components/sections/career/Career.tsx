@@ -12,7 +12,7 @@ function Career() {
     <section id="career" className={styles.career}>
       <div className="hwiInner">
         {/* 타이틀 */}
-        <h3 className={clsx('hwiTitle', styles.careerTitle)}>Career</h3>
+        <h2 className={clsx('hwiTitle', styles.careerTitle)}>Career</h2>
         {/*-- 타이틀 */}
 
         {/* 경력리스트 */}
