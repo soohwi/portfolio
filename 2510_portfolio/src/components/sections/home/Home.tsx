@@ -233,26 +233,20 @@ function Home() {
         {/* 컨텐츠 */}
         <div className={clsx(styles.homeContent, showContent && styles.visible)}>
           <div className={styles.homeContentInner}>
-            {/* <p>5년 이상의 퍼블리싱 경험을 바탕으로, <strong>UI 완성도와 협업에 강점</strong>을 가진 JavaScript 기반 프론트엔드 개발자 박수휘입니다.</p>
-            <p>웹 퍼블리셔로 출발해 <strong>Vue.js 기반의 컴포넌트 개발 경험</strong>을 쌓으며 프론트엔드로 전향했습니다.</p>
-            <p><strong>현재는 React.js와 TypeScript로 기술 영역</strong>을 확장하며 컴포넌트 구조와 상태 관리 패턴을 익히고 있습니다.</p>
-            <p>사용자 중심의 UI를 구조적으로 설계하고 개선하는 데 강점이 있습니다.</p> */}
-
             <p>
-              5년 이상의 퍼블리싱 경험과 <strong>Vue.js 실무 개발 경험</strong>을 바탕으로,<br/>
-              사용자 역할(대표/관리자/사원)과 데이터 흐름을 고려한 <strong>B2B HR 서비스 UI</strong>를 구현해온
+              5년 이상의 <strong>B2C 커머스·플랫폼 퍼블리싱 경험</strong>을 통해 사용자 중심 UI 기본기를 쌓고,<br/>
+              이후 <strong>Vue.js 기반 B2B HR 서비스 실무 개발</strong>로 영역을 확장해온
               프론트엔드 개발자 박수휘입니다.
             </p>
             <p>
-              조직·인사·근태·신청/승인 등 <strong>업무 시스템 화면</strong>을 개발하며,
-              복잡한 폼/리스트 UI를 <strong>유지보수 관점</strong>에서 구조화하고 개선해왔습니다.
+              커머스 환경에서의 UX 경험을 바탕으로,<br/>
+              HR 도메인에서는 사용자 역할(대표/관리자/사원)과 데이터 흐름을 고려한<br/>
+              <strong>권한·상태·승인 흐름을 포함한 업무 시스템 UI</strong>를 구현해왔으며,<br/>
+              복잡한 폼·리스트 화면을 <strong>유지보수 관점</strong>에서 구조화하고 개선해왔습니다.
             </p>
             <p>
-              React와 TypeScript는 개인 프로젝트를 통해 컴포넌트 구조와 상태 관리 패턴을 학습하며
-              기술 확장 기반을 다지고 있습니다.
-            </p>
-            <p>
-              디자인 구현에 그치지 않고, 협업을 고려한 UI 구조 설계와 품질 개선에 강점이 있습니다.
+              디자인 구현에 그치지 않고, 협업을 고려한 UI 구조 설계와 지속적인 품질 개선에 강점이 있으며,<br/>
+              React와 TypeScript는 개인 프로젝트를 통해 컴포넌트 구조와 상태 관리 패턴을 학습하며 기술 확장 기반을 다지고 있습니다.
             </p>
           </div>
         </div>
