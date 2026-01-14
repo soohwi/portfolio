@@ -3,10 +3,9 @@
  * home/Home.tsx
 **/
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Stars } from "@react-three/drei";
-import { useThree } from "@react-three/fiber";
+import { OrbitControls } from "@react-three/drei";
 import Moon from 'components/threejs/Moon';
 import styles from './home.module.scss';
 import clsx from 'clsx';
@@ -17,43 +16,43 @@ function Home() {
   const [hideTitle, setHideTitle] = useState(false);
   const [showContent, setShowContent] = useState(false);
   const [isTitleFixed, setIsTitleFixed] = useState(false);
-  const [titleOffset, setTitleOffset] = useState(0);
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
-  // 모바일인지 체크
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 760);
-    };
+  // 타이틀(두 줄)을 state 없이 ref로만 움직이기 (리렌더 방지)
+  const titleLineARef = useRef<HTMLParagraphElement | null>(null); // PARK SOO HWI
+  const titleLineBRef = useRef<HTMLParagraphElement | null>(null); // FRONTEND
+  const titleLineARefBorder = useRef<HTMLParagraphElement | null>(null);
+  const titleLineBRefBorder = useRef<HTMLParagraphElement | null>(null);
 
+  // 모바일 체크
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 760);
     checkMobile();
-    window.addEventListener('resize', checkMobile);
+    window.addEventListener('resize', checkMobile, { passive: true });
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   // 페이지 진입 후 100ms 후 애니메이션 트리거
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setShowTitle(true);
-    }, 100);
-
+    const timeout = setTimeout(() => setShowTitle(true), 100);
     return () => clearTimeout(timeout);
   }, []);
 
   // 별 배경 마우스위치에 따른 움직임 이벤트
-  const starPositions = useMemo(
-    () =>
-      Array.from({ length: 150 }).map((_, i) => ({
-        id: i,
-        top: Math.random() * 100,
-        left: Math.random() * 100,
-        size: Math.random() * 6 + 2,
-      })),
-    []
-  );
+  const starPositions = useMemo(() => {
+    if (isMobile) return [];
+
+    return Array.from({length: 150}).map((_, i) => ({
+      id: i,
+      top: Math.random() * 100,
+      left: Math.random() * 100,
+      size: Math.random() * 6 + 2,
+    }));
+  }, [isMobile]);
 
   useEffect(() => {
     if (isMobile) return;
+    if (starPositions.length === 0) return;// 별 없을 경우
 
     const starEls = document.querySelectorAll<HTMLElement>('[data-star]');
     let raf = 0;
@@ -88,6 +87,15 @@ function Home() {
 
   // 스크롤에 따른 타이틀 및 컨텐츠 애니메이션
   useEffect(() => {
+    // 모바일은 스크롤 모션/고정 효과 OFF
+    if (isMobile) {
+      setShowTitle(true);
+      setHideTitle(false);
+      setShowContent(true);
+      setIsTitleFixed(false);
+      return;
+    }
+
     let raf = 0;
 
     const handleScroll = () => {
@@ -97,12 +105,23 @@ function Home() {
         const homeSection = document.getElementById('home');
         if (!homeSection) return;
 
-        setTitleOffset(scrollY * 0.6);
-
         const homeTop = homeSection.offsetTop;
         const homeBottom = homeTop + homeSection.offsetHeight;
         const scrollMiddle = scrollY + window.innerHeight / 2;
 
+        // 타이틀 좌우이동
+        const offset = scrollY * 0.6;
+        const applyTransform = (el: HTMLParagraphElement | null, x: number) => {
+          if (!el) return;
+          el.style.transform = `translate3d(${x}px, 0, 0)`;
+        };
+
+        applyTransform(titleLineARef.current, offset);
+        applyTransform(titleLineBRef.current, -offset);
+        applyTransform(titleLineARefBorder.current, offset);
+        applyTransform(titleLineBRefBorder.current, -offset);
+
+        // 타이틀/컨텐츠 show/hide
         setHideTitle(prev => {
           const next = scrollMiddle >= homeTop + 800;
           return prev === next ? prev : next;
@@ -117,7 +136,6 @@ function Home() {
           const next = scrollY < homeBottom;
           return prev === next ? prev : next;
         });
-
       });
     };
 
@@ -128,20 +146,7 @@ function Home() {
       cancelAnimationFrame(raf);
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
-
-  // 달 움직임 컨트롤
-  function Controls() {
-    const { invalidate } = useThree();
-    return (
-      <OrbitControls
-        enableZoom={false}
-        enablePan={false}
-        enableDamping={false}
-        onChange={() => invalidate()}
-      />
-    );
-  }
+  }, [isMobile]);
 
   // 다크모드 테마 적용
   useEffect(() => {
@@ -194,44 +199,50 @@ function Home() {
                   <directionalLight position={[4, 4, 4]} intensity={1.8} color="#ffffff" />{/* 달 형태를 살리는 메인 라이트 */}
                   <directionalLight position={[-3, -2, 2]} intensity={0.8} />{/* 반대쪽 보조광 (너무 어두워지는 것 방지) */}
                   <Moon />
-                  <Controls />
+
+                  {/* 달 움직임 컨트롤 */}
+                  <OrbitControls enableZoom={false} enablePan={false} enableDamping={false} />
                 </Canvas>
               </>
             )}
           </div>
-          <div className={styles.starsBox}>
-            {starPositions.map((s) => (
-              <div
-                className={styles.star}
-                key={s.id}
-                data-star
-                style={{
-                  top: `${s.top}%`,
-                  left: `${s.left}%`,
-                  width: `${s.size}px`,
-                  height: `${s.size}px`,
-                }}
-              />
-            ))}
-          </div>
+
+          {/* 모바일에서는 별 렌더링 X */}
+          {!isMobile && (
+            <div className={styles.starsBox} aria-hidden="true">
+              {starPositions.map((s) => (
+                <div
+                  className={styles.star}
+                  key={s.id}
+                  data-star
+                  style={{
+                    top: `${s.top}%`,
+                    left: `${s.left}%`,
+                    width: `${s.size}px`,
+                    height: `${s.size}px`,
+                  }}
+                />
+              ))}
+            </div>
+          )}
         </div>
         {/* //배경 (별/달) */}
 
         {/* 타이틀 */}
         <div className={clsx(styles.homeTitleBox, showTitle && !hideTitle && styles.visible)}>
           <div className={clsx(styles.homeTitle, styles.typeSolid)}>
-            <p className={styles.text} style={{ transform: `translate3d(${titleOffset}px, 0, 0)` }}>PARK<br/> SOO HWI</p>
-            <p className={styles.text} style={{ transform: `translate3d(-${titleOffset}px, 0, 0)` }}>FRONTEND</p>
+            <p ref={titleLineARef} className={styles.text}>PARK<br/> SOO HWI</p>
+            <p ref={titleLineBRef} className={styles.text}>FRONTEND</p>
           </div>
           <div className={clsx(styles.homeTitle, styles.typeBorder)}>
-            <p className={styles.text} style={{ transform: `translate3d(${titleOffset}px, 0, 0)` }}>PARK<br/> SOO HWI</p>
-            <p className={styles.text} style={{ transform: `translate3d(-${titleOffset}px, 0, 0)` }}>FRONTEND</p>
+            <p ref={titleLineARefBorder} className={styles.text}>PARK<br/> SOO HWI</p>
+            <p ref={titleLineBRefBorder} className={styles.text}>FRONTEND</p>
           </div>
         </div>
         {/* //타이틀 */}
 
         {/* 컨텐츠 */}
-        <div className={clsx(styles.homeContent, showContent && styles.visible)}>
+        <div className={clsx(styles.homeContent, (isMobile || showContent) && styles.visible)}>
           <div className={styles.homeContentInner}>
             <p>
               5년 이상의 <strong>B2C 커머스·플랫폼 퍼블리싱 경험</strong>을 통해 사용자 중심 UI 기본기를 쌓고,<br/>
