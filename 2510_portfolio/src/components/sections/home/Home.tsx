@@ -82,7 +82,7 @@ function Home() {
       cancelAnimationFrame(raf);
       window.removeEventListener('mousemove', handleMouseMove);
     };
-  }, [isMobile]);
+  }, [isMobile, starPositions.length]);
 
 
   // 스크롤에 따른 타이틀 및 컨텐츠 애니메이션
