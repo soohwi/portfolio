@@ -20,28 +20,35 @@ function Career() {
           <ol className={styles.careerList}>
             {careerData.map((item) => (
               <li key={item.id} className={styles.careerItem}>
-                <i className={`${styles[`careerLogo_${item.logo}`]}`} aria-hidden="true"></i>
+                <i className={styles[`careerLogo_${item.logo}`]} aria-hidden="true"></i>
                 <dl>
                   <dt>{item.company}</dt>
                   <dd className={styles.textInfo}>
                     {item.team} | {item.role} | {item.position} | {item.period}
                   </dd>
-                  <dd>
+                  <dd className={styles.summary}>
                     <ul className="textList" role="list">
                       {item.summary.map((sentence, idx) => (
-                        <li key={idx}>
+                        <li key={`${item.id}-sum-${idx}`}>
                           {sentence.map((part, i) => (
-                            part.bold ? <strong key={i}>{part.text}</strong> : <span key={i}>{part.text}</span>
+                            part.bold ?
+                            <strong key={`${item.id}-sum-${idx}-${i}`}>{part.text}</strong>
+                            : <span key={`${item.id}-sum-${idx}-${i}`}>{part.text}</span>
                           ))}
                         </li>
                       ))}
-                      <li><strong>주요 프로젝트</strong>: {item.project}</li>
                     </ul>
                   </dd>
-                  <dd>
+                  <dd className={styles.projects}>
+                    <h4 className={styles.projectsTitle}>주요 프로젝트</h4>
+                    <ul className="textList" role="list">
+                      {item.projects.map((p) => <li key={`${item.id}-${p}`}>{p}</li>)}
+                    </ul>
+                  </dd>
+                  <dd className={styles.badges}>
                     <ul className="badgeList" role="list">
-                      {item.skills.map((item, idx) => (
-                        <li className="badge" key={idx}>{item}</li>
+                      {item.skills.map((skill) => (
+                        <li className="badge" key={`${item.id}-${skill}`}>{skill}</li>
                       ))}
                     </ul>
                   </dd>

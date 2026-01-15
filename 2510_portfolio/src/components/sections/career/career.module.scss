@@ -44,6 +44,14 @@
           margin-top: .7rem;
           @include mixin.font($gray_800 '1.5rem');
         }
+
+        // 주요 프로젝트
+        &.projects {
+          .projectsTitle {
+            padding-bottom: 1rem;
+            @include mixin.font($gray_800 700 '1.5rem');
+          }
+        }
       }
     }
   }
