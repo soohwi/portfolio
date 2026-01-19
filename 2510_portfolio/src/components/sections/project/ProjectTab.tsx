@@ -3,30 +3,34 @@
  * project/ProjectTab.tsx
 **/
 
+import { useMemo } from 'react';
 import styles from './project.module.scss';
 import { ProjectData } from 'data/projectData';
+import { PROJECT_TABS, type ProjectTabType } from 'data/projectTabs';
 
-interface tabProps {
-  selectedTab: string;
-  setSelectedTab: (tab: string) => void;// void=반환값없음
+
+interface TabProps {
+  selectedTab: ProjectTabType;
+  setSelectedTab: (tab: ProjectTabType) => void;// void=반환값없음
 }
-
-const tabs = ['All', '개인', '(주)휴먼컨설팅그룹', '(주)엠몬스타']
-
-// 각 탭별 개수 계산
-const tabItemCount = tabs.map((tab) => {
-  if (tab === 'All') return ProjectData.length;
-  return ProjectData.filter((item) => item.comp === tab).length;
-});
 
 // 2자릿수 포매팅
 const formatCount = (count: number) => String(count).padStart(2, '0');
 
-function ProjectTab({ selectedTab, setSelectedTab }: tabProps) {
+function ProjectTab({ selectedTab, setSelectedTab }: TabProps) {
+
+  // 각 탭별 개수 계산
+  const tabItemCount = useMemo(() => {
+    return PROJECT_TABS.map((tab) => {
+      if (tab === 'All') return ProjectData.length;
+      return ProjectData.filter((item) => item.comp === tab).length;
+    });
+  }, []);
+
   return (
     <div className={styles.projectTab}>
       <ul role="tablist">
-        {tabs.map((tab, i) => (
+        {PROJECT_TABS.map((tab, i) => (
           <li key={tab}>
             <button
               type="button"

@@ -7,9 +7,11 @@ import styles from './project.module.scss';
 import { useState } from 'react';
 import ProjectList from './ProjectList';
 import ProjectTab from './ProjectTab';
+import { PROJECT_TABS, type ProjectTabType } from 'data/projectTabs';
+
 
 function Project() {
-  const [selectedTab, setSelectedTab] = useState('All');
+  const [selectedTab, setSelectedTab] = useState<ProjectTabType>('All');
 
   return (
     <section id="project" className={styles.project}>
