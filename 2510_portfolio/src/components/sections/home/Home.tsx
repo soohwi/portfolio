@@ -128,7 +128,7 @@ function Home() {
         });
 
         setShowContent(prev => {
-          const next = scrollMiddle >= homeTop + 700;
+          const next = scrollMiddle >= homeTop + 850;
           return prev === next ? prev : next;
         });
 
@@ -243,7 +243,7 @@ function Home() {
 
         {/* 컨텐츠 */}
         <div className={clsx(styles.homeContent, (isMobile || showContent) && styles.visible)}>
-          <div className={styles.homeContentInner}>
+          {/* <div className={styles.homeContentInner}>
             <p>
               5년 이상의 <strong>B2C 커머스·플랫폼 퍼블리싱 경험</strong>을 통해 사용자 중심 UI 기본기를 쌓고,<br/>
               이후 <strong>Vue.js 기반 B2B HR 서비스 실무 개발</strong>로 영역을 확장해온
@@ -258,6 +258,17 @@ function Home() {
             <p>
               디자인 구현에 그치지 않고 <strong>협업을 고려한 UI 구조 설계와 지속적인 품질 개선</strong>에 강점이 있으며,<br/>
               React와 TypeScript는 개인 프로젝트를 통해 컴포넌트 구조와 상태 관리 패턴을 학습하며 기술 확장 기반을 다지고 있습니다.
+            </p>
+          </div> */}
+          <div className={styles.homeContentInner}>
+            <p>
+              5년 이상의 <strong>B2C 커머스·플랫폼 경험</strong>을 통해 사용자 중심 UI 기본기를 쌓고,<br/>
+              이후 <strong>Vue.js 기반 B2B HR 서비스 실무 개발</strong>로 영역을 확장해온
+              프론트엔드 개발자 박수휘입니다.
+            </p>
+            <p>
+              디자인 구현에 그치지 않고 <strong>협업을 고려한 UI 구조 설계</strong>를 기반으로<br/>
+              사용자 역할과 데이터 흐름을 반영한 <strong>유지보수 중심의 컴포넌트 구성</strong>에 강점이 있습니다.
             </p>
           </div>
         </div>
