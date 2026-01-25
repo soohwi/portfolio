@@ -188,6 +188,18 @@ function ProjectCardModal({ item, detail }: ProjectCardModalProps) {
           </section>
         )}
 
+        {/* 결과 */}
+        {detail?.outcome && detail.outcome.length > 0 && (
+          <section className={styles.modalSection}>
+            <h5 className={styles.modalSubTitle}>결과</h5>
+            <ul className={styles.modalList}>
+              {detail.outcome.map((text, idx) => (
+                <li key={`outcome-${idx}`}>{text}</li>
+              ))}
+            </ul>
+          </section>
+        )}
+
         {/* 회고 */}
         {detail?.reflection && detail.reflection.length > 0 && (
           <section className={styles.modalSection}>
