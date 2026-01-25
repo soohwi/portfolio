@@ -74,6 +74,7 @@ function Home() {
       lastX = e.clientX;
       lastY = e.clientY;
       cancelAnimationFrame(raf);
+      // raf: 브라우저에게 “다음 화면을 그릴 타이밍에 이 함수 한 번만 실행해줘”라고 요청하는 API
       raf = requestAnimationFrame(update);
     };
 

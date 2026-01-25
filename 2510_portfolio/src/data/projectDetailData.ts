@@ -40,77 +40,88 @@ export const ProjectDetailData: ProjectDetail[] = [
     title: `포트폴리오`,
     git: `https://github.com/soohwi/portfolio/tree/master/2510_portfolio`,
     overview:
-      `WebGL과 3D 요소를 활용해 시각적 몰입감을 입힌 포트폴리오 웹사이트입니다. 반응형 인터랙션, 라이트/다크 테마, 애니메이션을 적용했습니다.`,
+      `사용자 경험과 성능을 함께 고려한 인터랙티브 포트폴리오 웹사이트입니다.
+      3D 요소와 애니메이션을 활용하되, 기기 환경에 따른 퍼포먼스 영향을 고려해 설계했습니다.`,
     purpose:
-      `정적인 이력서 페이지를 넘어, 사용자 경험을 고려한 인터랙티브한 프론트엔드 포트폴리오를 만들고자 기획한 프로젝트입니다.
-      3D 오브젝트와 마우스/스크롤 이벤트에 반응하는 시각 요소들을 구현하며, 디자인과 퍼포먼스를 균형 있게 고려하는 데에 집중했습니다.`,
+      `정적인 이력서 페이지를 넘어,
+      사용자 흐름과 인터랙션을 고려한 프론트엔드 구조를 설계하고자 기획한 프로젝트입니다.
+      시각적 요소 구현 자체보다,
+      성능, 유지보수, 확장성을 함께 고려한 UI 설계 경험을 쌓는 데에 중점을 두었습니다.`,
     thumbnail: '/assets/images/portfolio/portfolio.png',
     features: [
       `Three.js + React Three Fiber 기반 3D 달 오브젝트 구현`,
-      `마우스 위치에 따라 별 배경의 패럴랙스 효과 구현`,
-      `스크롤 기반 인터랙션 - 타이틀 및 콘텐츠 요소 순차 노출`,
-      `다크모드 / 라이트모드 토글 구현 (localStorage에 상태 저장)`,
-      `반응형 레이아웃 설계로 PC 및 모바일 환경 모두 최적화`,
-      `공통 모달 컴포넌트와 커스텀 훅(useModal) 설계로 애니메이션 처리 및 상태 관리를 일관되게 구현`,
+      `마우스 위치에 따른 별 배경 패럴랙스 효과 (모바일 환경에서는 비활성화)`,
+      `스크롤 기반 인터랙션으로 콘텐츠 흐름을 단계적으로 노출`,
+      `다크모드 / 라이트모드 토글 구현 (localStorage로 상태 유지)`,
+      `반응형 레이아웃 설계 및 모바일 성능 고려한 인터랙션 제어`,
+      `공통 모달 컴포넌트와 커스텀 훅(useModal)을 통해 상태 관리와 애니메이션 로직 일관화`,
     ],
     techStack: [
-      `React + TypeScript + Vite`,
+      `React + TypeScript + Vite (컴포넌트 구조와 타입 안정성 중심 설계)`,
       `Three.js + @react-three/fiber + @react-three/drei`,
-      `SCSS Modules + 커스텀 Mixin + Media Query 대응`,
+      `SCSS Modules + 커스텀 Mixin으로 스타일 공통화`,
       `IntersectionObserver / Scroll 이벤트 기반 인터랙션`,
-      `3D 오브젝트와 마우스 움직임 연동 처리 (mousemove)`,
-      `컴포넌트 구조 분리 (3D, 레이아웃, 섹션 등 기능 단위)`,
+      `mousemove 기반 인터랙션은 requestAnimationFrame으로 제어`,
+      `3D / 레이아웃 / 섹션 단위로 컴포넌트 역할 분리`,
     ],
     issues: [
       {
-        title: `ref 객체에 타입 오류 발생`,
-        summary:`Three.js mesh 요소에 ref를 사용할 때 타입 선언이 없어서 TypeScript에서 null 관련 오류 발생`,
+        title: `모바일 발열·스크롤 버벅임 개선 (3D/인터랙션 조건부 비활성화)`,
+        summary: `모바일에서 3D 캔버스 + 별 배경 + 스크롤 모션이 동시에 동작하며 발열과 프레임 드랍이 발생`,
         cause: [
-          `useRef를 사용할 때 초기값을 null로 설정하면서도 제네릭 타입을 명시하지 않아 ref.current의 타입 추론이 실패`,
-          `Mesh 객체의 속성(rotation 등)에 접근할 수 없어 'Object is possibly null' 오류 발생`
+          `모바일 GPU/CPU 리소스가 제한적인데, 3D 렌더링과 DOM 기반 배경(다수 요소) 애니메이션이 동시에 수행됨`,
+          `스크롤 이벤트에서 state 업데이트가 빈번하면 메인 스레드가 바빠져 스크롤이 끊기는 현상이 발생`,
+          `불필요한 애니메이션/렌더링이 지속되면 배터리 소모 및 발열로 이어짐`
         ],
-        img: `/assets/images/portfolio/issue_ref.png`,
+        img: `/assets/images/portfolio/issue_perf_mobile.png`,
         solution: [
-          `useRef<Mesh>(null) 형태로 타입을 명시하여 ref의 타입 안정성 확보`,
-          `ref.current가 존재하는지 확인 후 안전하게 접근`,
-          `useFrame 등에서 매 프레임마다 접근 시에도 null 체크 필수 적용`
+          `모바일 구간에서는 별 배경 렌더링과 마우스 기반 인터랙션을 비활성화하여 불필요한 연산을 제거`,
+          `스크롤 모션은 모바일에서 OFF 처리하고, 텍스트/콘텐츠는 기본 노출(가독성 유지 + 성능 우선)`,
+          `타이틀 이동은 state 대신 ref + style transform으로 처리해 리렌더를 줄이고 스크롤 성능을 안정화`
         ]
       },
       {
-        title: `SCSS 모듈 클래스 동적 처리 시 타입 오류`,
-        summary: `SCSS 모듈 사용 중 조건부 클래스 처리에서 존재하지 않는 키를 참조하여 TypeScript 타입 오류 발생`,
+        title: `Three.js 렌더링 비용 절감 (frameloop 제어 + invalidate 기반 갱신)`,
+        summary: `기본 렌더 루프가 유지되며 정적인 장면에서도 GPU가 지속적으로 사용되어, 불필요한 리소스 소모가 발생`,
         cause: [
-          `styles 객체에서 정의되지 않은 클래스명을 잘못 참조하거나 오타 발생`,
-          `조건부 렌더링 로직이 복잡할 경우 타입 추론이 실패하면서 컴파일 오류 발생`
+          "React Three Fiber의 기본 렌더링 방식은 화면 변화가 거의 없어도 매 프레임을 계속 그리기 때문에, 정적인 장면에서도 GPU 연산이 지속적으로 발생",
+          "기본 DPR과 안티앨리어싱 설정은 데스크톱 기준으로는 문제가 없지만, 모바일이나 저사양 환경에서는 픽셀 렌더링 비용이 급격히 증가해 성능 저하로 이어짐"
         ],
-        img: `/assets/images/portfolio/issue_clsx.png`,
+        img: `/assets/images/portfolio/issue_frameloop.png`,
         solution: [
-          `타입 추론에 강한 clsx로 classnames 대체`,
-          `SCSS 모듈 타입 자동 생성을 위해 scss.d.ts 설정 추가`,
-          `모든 클래스 접근 시 정적 키(styles.key) 방식으로 타입 안정성 확보`
+          `Canvas에 frameloop="demand"를 적용하여 필요할 때만 렌더링하도록 변경`,
+          `gl 옵션(powerPreference: "low-power", antialias: false)과 dpr 제한([1, 1.5])으로 픽셀 렌더 비용을 낮춤`,
+          `달 회전은 setInterval(예: 10fps) + invalidate 조합으로 최소 프레임만 갱신하도록 조정`
         ]
       },
       {
-        title: `useEffect 내부 DOM 접근 오류`,
-        summary: `렌더링 직후 실행되는 useEffect 내부에서 아직 생성되지 않은 DOM 요소를 참조해 오류 발생`,
+        title: `이벤트 기반 애니메이션 최적화 (mousemove rAF 스로틀 + passive 적용)`,
+        summary: `별 배경 패럴랙스 효과에서 mousemove 이벤트가 과도하게 발생해 프레임 드랍이 발생`,
         cause: [
-          `랜덤으로 렌더되는 별(star) 요소를 document.querySelectorAll로 즉시 탐색할 경우, 요소가 존재하지 않아 에러 발생 가능`,
-          `React의 useEffect는 렌더링 직후 실행되지만, 해당 시점에 DOM이 아직 완전히 마운트되지 않았을 수 있음`
+          "mousemove 이벤트는 호출 빈도가 매우 높아, 이벤트마다 DOM 스타일을 변경하면 메인 스레드 부하가 빠르게 증가",
+          "마우스 이동과 스크롤 이벤트가 동시에 발생할 경우, 렌더링과 페인팅 비용이 누적되어 프레임 드랍으로 이어짐"
         ],
-        img: `/assets/images/portfolio/issue_star.png`,
+        img: `/assets/images/portfolio/issue_event.png`,
         solution: [
-          `의존성 배열을 빈 배열([])로 설정해 useEffect가 마운트 시점에만 실행되도록 함`,
-          `NodeList 내부 요소에 대해 instanceof HTMLElement 조건으로 안전하게 타입 검사`,
-        ],
+          `mousemove 핸들러 내부에서 requestAnimationFrame으로 업데이트를 묶어 1프레임당 1회만 DOM 반영`,
+          `이벤트 리스너에 passive: true를 적용해 스크롤 처리 우선순위를 방해하지 않도록 구성`,
+          `언마운트 시 cancelAnimationFrame 및 removeEventListener로 리소스 누수 방지`
+        ]
       }
     ],
     reflection: [
-      `3D 배경 구현, 테마 토글, 반응형 레이아웃, 접근성 처리 등 다양한 기능을 직접 설계하고 개발하며 컴포넌트 중심 사고와 사용자 중심 UI 설계 역량을 강화할 수 있었습니다.`,
-      `처음 접한 Three.js 기반 3D 작업은 쉽지 않았지만, 개념을 하나씩 익히며 문제를 해결해 나가는 과정에서 큰 흥미를 느꼈고, 새로운 기술을 다루는 자신감을 얻을 수 있었습니다.`,
-      `또한, 커스텀 훅을 통한 상태 관리, 공통 모달 컴포넌트 처리와 같은 설계를 통해 실무에서 중요하게 여겨지는 재사용성과 확장성의 가치를 다시 한번 체감했습니다. 이를 통해 초기에 더 꼼꼼한 기획과 구조 설계가 얼마나 중요한지에 대해 깊이 있게 배우는 계기가 되었습니다.`,
-      `3D 그래픽 처리, 애니메이션 타이밍 조절, 사용자 접근성 향상 등 실제 구현 중 마주한 다양한 이슈들을 해결해가며, 문제 해결력과 구조적 사고 능력 모두를 실질적으로 성장시킬 수 있었던 의미 있는 프로젝트였습니다.`
+      `3D 요소, 테마 토글, 스크롤 인터랙션 등 다양한 기능을 단순히 추가하는 것이 아니라,
+      실제 사용자 환경(특히 모바일)에서의 성능과 사용성을 기준으로 기능을 선별·조정하는 경험을 했습니다.`,
+      `Three.js 기반 3D 구현 과정에서 시각적 완성도보다
+      렌더링 비용과 디바이스 성능 한계를 먼저 고려해야 한다는 점을 체감했고,
+      frameloop 제어, invalidate 기반 갱신 등 성능 중심의 설계 방식을 학습했습니다.`,
+      `특히 모바일 환경에서 발열과 스크롤 버벅임 이슈를 직접 겪으며,
+      모든 인터랙션이 항상 좋은 UX는 아니라는 판단 하에
+      기기 조건에 따라 기능을 과감히 비활성화하는 선택을 했습니다.`,
+      `이번 프로젝트를 통해 단순 구현 능력을 넘어,
+      언제 기능을 넣고 언제 덜어내야 하는지 판단하는 기준과
+      성능, 유지보수, 확장성을 함께 고려하는 설계 관점을 정립할 수 있었습니다.`
     ]
-
   },
   {
     id: `hwitter`,
