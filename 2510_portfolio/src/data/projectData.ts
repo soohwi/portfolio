@@ -32,15 +32,15 @@ export const ProjectData: ProjectItem[] = [
     position: '1인 (기여도 100%)',
     skill: ['React(Vite 기반)', 'TypeScript', 'SCSS', 'Firebase']
   },
-  {
-    id: 'movieApp',
-    imgSrc: '/assets/images/project/work_thumb-movie.png',
-    comp: '개인',
-    title: '영화 앱 클론',
-    period: '약 2주',
-    position: '1인 (기여도 100%)',
-    skill: ['React(Vite 기반)', 'TypeScript', 'Styled-components', 'Github-pages']
-  },
+  // {
+  //   id: 'movieApp',
+  //   imgSrc: '/assets/images/project/work_thumb-movie.png',
+  //   comp: '개인',
+  //   title: '영화 앱 클론',
+  //   period: '약 2주',
+  //   position: '1인 (기여도 100%)',
+  //   skill: ['React(Vite 기반)', 'TypeScript', 'Styled-components', 'Github-pages']
+  // },
   {
     id: 'hcgHr',
     imgSrc: '/assets/images/project/work_thumb-hcg.png',

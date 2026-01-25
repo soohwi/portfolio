@@ -203,95 +203,95 @@ export const ProjectDetailData: ProjectDetail[] = [
         실시간 리스너 관리, 비동기 예외 처리, 접근성 개선 같은 실무에서 마주할 수 있는 고민들을 해결해가며, 프론트엔드 개발자로서의 사고 방식과 실력을 한층 성장시킬 수 있었던 프로젝트였습니다.`
     ]
   },
-  {
-    id: `movieApp`,
-    title: `영화 앱 클론`,
-    link: `https://soohwi.github.io/portfolio_movieApp/`,
-    git: `https://github.com/soohwi/portfolio_movieApp/tree/main/portfolio-movie-app`,
-    overview:
-      `최신 평점 높은 영화를 조회하고, 장르별로 분류된 영화 리스트와 상세 정보를 확인할 수 있는 영화 정보 웹앱입니다.`,
-    purpose:
-      `퍼블리셔 경험을 바탕으로, UI 구현을 넘어 데이터 흐름과 구조 설계를 직접 다루며
-        React와 TypeScript를 실무 환경에 적용해본 프로젝트입니다.`,
-    thumbnail: '/assets/images/movieApp/movieApp.png',
-    features: [
-      `YTS API 연동 - 영화 목록 및 상세 정보 조회`,
-      `장르별 자동 분류 - 영화 데이터를 장르 기준으로 나누어 렌더링`,
-      `싱커 메뉴 이동 - 장르 메뉴 클릭 시 해당 섹션으로 부드럽게 스크롤`,
-      `설명 요약 / 더보기 토글 - 긴 설명은 일부만 노출하고 토글로 전체 보기 지원`,
-    ],
-    techStack: [
-      `React (Vite 기반) / TypeScript / React Router v6 / Styled-components`,
-      `Vite를 통한 빠른 개발 환경 구성과 GitHub Pages 배포 최적화 (base 경로, gh-pages 활용)`,
-      `TypeScript로 Props와 API 데이터 타입 명확화, 공통 타입 분리(types/movie.ts)로 재사용성과 안정성 확보`,
-      `SVG 아이콘은 vite-plugin-svgr을 사용해 React Component로 import 처리`,
-      `styled-components로 컴포넌트 기반 스타일 분리 + 동적 props 대응`,
-      `폴더 구조를 pages, components, styles, types 등으로 기능별 역할에 따라 분리하여 유지보수성과 가독성 확보`,
-      `접근성 개선을 위해 aria-label, 시맨틱 태그, 버튼 역할 명시 등 고려`
-    ],
-    issues: [
-      {
-        title: `웹폰트 import 오류`,
-        summary: `Pretendard Variable 웹폰트가 정상적으로 로드되지 않아 스타일이 기본 시스템 폰트로 fallback되는 현상이 발생`,
-        cause: [
-          `public/font/ 폴더 하위의 .woff2 파일을 src 내부에서 직접 import 하려다 TypeScript에서 타입 오류 발생`,
-          `Vite 환경에서는 public 폴더에 있는 자산은 url()로만 접근 가능하며, import 방식으로 직접 참조 불가`
-        ],
-        img: `/assets/images/movieApp/issue_font.png`,
-        solution: [
-          `.woff2 타입을 선언하기 위해 declarations.d.ts 파일에 타입 정의 추가`,
-          `GlobalStyle.ts에서 @font-face 선언 시 url()로 직접 선언`,
-        ]
-      },
-      {
-        title: `SVG 마스크 아이콘 배포 시 깨짐`,
-        summary: `마스크 방식(mask, -webkit-mask)으로 구현한 SVG 아이콘이 로컬 개발환경에서는 정상적으로 보이지만, GitHub Pages 배포 시 마스크가 깨지고 아이콘이 표시되지 않음`,
-        cause: [
-          `CSS 마스크 방식에서는 url('/src/assets/...') 식의 절대경로 사용 시 Vite의 base 설정과 충돌이 발생해 배포 후 파일 경로를 제대로 참조하지 못함`
-        ],
-        img: `/assets/images/movieApp/issue_svg.png`,
-        solution: [
-          `CSS 마스크 방식 제거`,
-          `vite-plugin-svgr을 설정해 SVG를 React 컴포넌트로 import하여 JSX에서 직접 사용`,
-          `스타일을 styled-components로 처리하여 유지 보수성 확보`
-        ]
-      },
-      {
-        title: `API 응답 누락 방지`,
-        summary: `YTS API를 통해 영화를 불러올 때 일부 데이터에서 genres 또는 description_full이 누락되어, 컴포넌트 렌더링 도중 오류가 발생하거나, 페이지에 undefined가 표시되는 문제가 발생`,
-        cause: [
-          `API에서 genres는 영화에 따라 없거나 빈 배열일 수 있음`,
-          `description_full은 API 응답에 따라 존재하지 않을 수 있음`,
-          `초기에는 해당 필드를 필수(required)로 선언하여 타입 오류 및 렌더링 중 예외 발생`
-        ],
-        img: `/assets/images/movieApp/issue_api.png`,
-        solution: [
-          `MovieType에서 description_full을 optional로 변경`,
-          `데이터 사용 시 fallback 값( || summary || '' )으로 안전 처리`,
-          `장르 배열 접근 시 optional chaining( ?. )으로 안전하게 필터링 처리`
-        ]
-      },
-      {
-        title: `긴 설명 텍스트 가독성 문제`,
-        summary: `영화 상세 설명(description_full)이 너무 길어 페이지 레이아웃이 깨지거나, 가독성이 떨어지는 UI가 됨`,
-        cause: [
-          `API에서 제공하는 영화 설명은 길이에 제한이 없어 한 페이지에 너무 많은 텍스트가 노출됨`,
-          `모바일 뷰에서 사용자 경험(UX) 저하`
-        ],
-        img: `/assets/images/movieApp/issue_desc.png`,
-        solution: [
-          `설명 텍스트가 일정 길이 이상일 경우 잘라서 노출하고, 전체보기/접기 버튼을 통해 토글 기능 제공`,
-          `텍스트 길이 조건, 상태 관리를 통한 토글 구현으로 사용자 제어권 강화`
-        ]
-      }
-    ],
-    reflection: [
-      `퍼블리셔에서 프론트엔드로 역할을 확장하며, React와 TypeScript로 데이터 흐름과 구조 설계를 직접 다룬 첫 프로젝트였습니다.`,
-      `API 통신 중 useParams의 타입 추론 문제나 비동기 데이터 처리 과정에서 어려움이 있었지만, 문제를 해결해가며 React의 데이터 흐름과 상태 관리에 대한 이해를 높일 수 있었습니다.`,
-      `또한 SVG 아이콘의 컴포넌트화, 웹폰트 최적화와 같은 실무에서 자주 마주치는 이슈를 직접 겪고 해결하면서, 단순 UI 구현을 넘어 프론트엔드 개발자로서 갖춰야 할 기초 체력을 쌓을 수 있었던 경험이었습니다.`,
-      `이번 프로젝트를 통해 React와 TypeScript에 대한 흥미가 더 깊어졌고, 향후에는 전역 상태 관리, 테스트 코드 작성 등 실제 서비스에 가까운 구조로 발전시켜 나갈 계획입니다.`
-    ]
-  },
+  // {
+  //   id: `movieApp`,
+  //   title: `영화 앱 클론`,
+  //   link: `https://soohwi.github.io/portfolio_movieApp/`,
+  //   git: `https://github.com/soohwi/portfolio_movieApp/tree/main/portfolio-movie-app`,
+  //   overview:
+  //     `최신 평점 높은 영화를 조회하고, 장르별로 분류된 영화 리스트와 상세 정보를 확인할 수 있는 영화 정보 웹앱입니다.`,
+  //   purpose:
+  //     `퍼블리셔 경험을 바탕으로, UI 구현을 넘어 데이터 흐름과 구조 설계를 직접 다루며
+  //       React와 TypeScript를 실무 환경에 적용해본 프로젝트입니다.`,
+  //   thumbnail: '/assets/images/movieApp/movieApp.png',
+  //   features: [
+  //     `YTS API 연동 - 영화 목록 및 상세 정보 조회`,
+  //     `장르별 자동 분류 - 영화 데이터를 장르 기준으로 나누어 렌더링`,
+  //     `싱커 메뉴 이동 - 장르 메뉴 클릭 시 해당 섹션으로 부드럽게 스크롤`,
+  //     `설명 요약 / 더보기 토글 - 긴 설명은 일부만 노출하고 토글로 전체 보기 지원`,
+  //   ],
+  //   techStack: [
+  //     `React (Vite 기반) / TypeScript / React Router v6 / Styled-components`,
+  //     `Vite를 통한 빠른 개발 환경 구성과 GitHub Pages 배포 최적화 (base 경로, gh-pages 활용)`,
+  //     `TypeScript로 Props와 API 데이터 타입 명확화, 공통 타입 분리(types/movie.ts)로 재사용성과 안정성 확보`,
+  //     `SVG 아이콘은 vite-plugin-svgr을 사용해 React Component로 import 처리`,
+  //     `styled-components로 컴포넌트 기반 스타일 분리 + 동적 props 대응`,
+  //     `폴더 구조를 pages, components, styles, types 등으로 기능별 역할에 따라 분리하여 유지보수성과 가독성 확보`,
+  //     `접근성 개선을 위해 aria-label, 시맨틱 태그, 버튼 역할 명시 등 고려`
+  //   ],
+  //   issues: [
+  //     {
+  //       title: `웹폰트 import 오류`,
+  //       summary: `Pretendard Variable 웹폰트가 정상적으로 로드되지 않아 스타일이 기본 시스템 폰트로 fallback되는 현상이 발생`,
+  //       cause: [
+  //         `public/font/ 폴더 하위의 .woff2 파일을 src 내부에서 직접 import 하려다 TypeScript에서 타입 오류 발생`,
+  //         `Vite 환경에서는 public 폴더에 있는 자산은 url()로만 접근 가능하며, import 방식으로 직접 참조 불가`
+  //       ],
+  //       img: `/assets/images/movieApp/issue_font.png`,
+  //       solution: [
+  //         `.woff2 타입을 선언하기 위해 declarations.d.ts 파일에 타입 정의 추가`,
+  //         `GlobalStyle.ts에서 @font-face 선언 시 url()로 직접 선언`,
+  //       ]
+  //     },
+  //     {
+  //       title: `SVG 마스크 아이콘 배포 시 깨짐`,
+  //       summary: `마스크 방식(mask, -webkit-mask)으로 구현한 SVG 아이콘이 로컬 개발환경에서는 정상적으로 보이지만, GitHub Pages 배포 시 마스크가 깨지고 아이콘이 표시되지 않음`,
+  //       cause: [
+  //         `CSS 마스크 방식에서는 url('/src/assets/...') 식의 절대경로 사용 시 Vite의 base 설정과 충돌이 발생해 배포 후 파일 경로를 제대로 참조하지 못함`
+  //       ],
+  //       img: `/assets/images/movieApp/issue_svg.png`,
+  //       solution: [
+  //         `CSS 마스크 방식 제거`,
+  //         `vite-plugin-svgr을 설정해 SVG를 React 컴포넌트로 import하여 JSX에서 직접 사용`,
+  //         `스타일을 styled-components로 처리하여 유지 보수성 확보`
+  //       ]
+  //     },
+  //     {
+  //       title: `API 응답 누락 방지`,
+  //       summary: `YTS API를 통해 영화를 불러올 때 일부 데이터에서 genres 또는 description_full이 누락되어, 컴포넌트 렌더링 도중 오류가 발생하거나, 페이지에 undefined가 표시되는 문제가 발생`,
+  //       cause: [
+  //         `API에서 genres는 영화에 따라 없거나 빈 배열일 수 있음`,
+  //         `description_full은 API 응답에 따라 존재하지 않을 수 있음`,
+  //         `초기에는 해당 필드를 필수(required)로 선언하여 타입 오류 및 렌더링 중 예외 발생`
+  //       ],
+  //       img: `/assets/images/movieApp/issue_api.png`,
+  //       solution: [
+  //         `MovieType에서 description_full을 optional로 변경`,
+  //         `데이터 사용 시 fallback 값( || summary || '' )으로 안전 처리`,
+  //         `장르 배열 접근 시 optional chaining( ?. )으로 안전하게 필터링 처리`
+  //       ]
+  //     },
+  //     {
+  //       title: `긴 설명 텍스트 가독성 문제`,
+  //       summary: `영화 상세 설명(description_full)이 너무 길어 페이지 레이아웃이 깨지거나, 가독성이 떨어지는 UI가 됨`,
+  //       cause: [
+  //         `API에서 제공하는 영화 설명은 길이에 제한이 없어 한 페이지에 너무 많은 텍스트가 노출됨`,
+  //         `모바일 뷰에서 사용자 경험(UX) 저하`
+  //       ],
+  //       img: `/assets/images/movieApp/issue_desc.png`,
+  //       solution: [
+  //         `설명 텍스트가 일정 길이 이상일 경우 잘라서 노출하고, 전체보기/접기 버튼을 통해 토글 기능 제공`,
+  //         `텍스트 길이 조건, 상태 관리를 통한 토글 구현으로 사용자 제어권 강화`
+  //       ]
+  //     }
+  //   ],
+  //   reflection: [
+  //     `퍼블리셔에서 프론트엔드로 역할을 확장하며, React와 TypeScript로 데이터 흐름과 구조 설계를 직접 다룬 첫 프로젝트였습니다.`,
+  //     `API 통신 중 useParams의 타입 추론 문제나 비동기 데이터 처리 과정에서 어려움이 있었지만, 문제를 해결해가며 React의 데이터 흐름과 상태 관리에 대한 이해를 높일 수 있었습니다.`,
+  //     `또한 SVG 아이콘의 컴포넌트화, 웹폰트 최적화와 같은 실무에서 자주 마주치는 이슈를 직접 겪고 해결하면서, 단순 UI 구현을 넘어 프론트엔드 개발자로서 갖춰야 할 기초 체력을 쌓을 수 있었던 경험이었습니다.`,
+  //     `이번 프로젝트를 통해 React와 TypeScript에 대한 흥미가 더 깊어졌고, 향후에는 전역 상태 관리, 테스트 코드 작성 등 실제 서비스에 가까운 구조로 발전시켜 나갈 계획입니다.`
+  //   ]
+  // },
   {
     id: `hcgHr`,
     title: `휴먼컨설팅그룹 HR 서비스 고도화`,
