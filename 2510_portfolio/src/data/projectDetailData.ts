@@ -129,36 +129,34 @@ export const ProjectDetailData: ProjectDetail[] = [
     link: `https://hwitter-reloaded-6be5b.web.app/`,
     git: `https://github.com/soohwi/portfolio_hwitter/tree/main/portfolio_hwitter`,
     overview:
-    `트윗 작성, 수정, 삭제 등 기본적인 SNS 기능을 제공하며 Firebase 기반으로 실시간 렌더링과 인증을 지원하는 클론 웹앱입니다.`,
+      `Firebase 기반 실시간 데이터 구조와 인증 흐름을 중심으로 설계한 SNS 클론 웹앱입니다.
+      UI 구현뿐 아니라, 데이터 동기화, 권한 제어, 배포까지 포함한 SPA 전체 흐름을 경험했습니다.`,
     purpose:
-      `사용자 인증부터 데이터 관리, 배포까지 한 번에 다루며 Firebase와 React 기반의 단일 서비스 구축 경험을 목표로 진행한 프로젝트입니다.
-        트위터처럼 유저별 타임라인을 실시간 동기화하고, 프로필/트윗 컴포넌트를 작은 단위로 구조화하는 데에 집중했습니다.`,
+      `사용자 인증, 실시간 데이터 관리, 배포까지 하나의 서비스로 완성해보는 것을 목표로 진행한 프로젝트입니다.
+      단순 기능 구현이 아니라, 컴포넌트 분리, 서비스 로직 구조화, 타입 안정성을 고려한 프론트엔드 구조 설계에 집중했습니다.`,
     thumbnail: '/assets/images/hwitter/hwitter.png',
     features: [
-      `Firebase Auth를 통한 이메일/비밀번호 로그인 및 GitHub OAuth`,
-      `실시간 트윗 스트리밍 (Firestore onSnapshot)`,
-      `트윗 작성/수정/삭제 (이미지 업로드 포함)`,
-
-      `본인 트윗만 수정/삭제 가능한 권한 제어`,
-      `프로필 이미지 업로드 (base64 처리)`,
-      `반응형 대응 (모바일 중심)`,
-      `시맨틱 마크업 및 aria-label, sr-only 등 웹 접근성 고려`,
-      `Firebase Hosting을 통한 1-click 배포`
+      `Firebase Auth 기반 로그인 (이메일/비밀번호, GitHub OAuth)`,
+      `Firestore onSnapshot을 활용한 실시간 트윗 스트리밍`,
+      `트윗 작성/수정/삭제 및 이미지 업로드`,
+      `작성자 기준 권한 제어 (본인 트윗만 수정/삭제 가능)`,
+      `프로필 이미지 업로드 및 사용자 정보 관리`,
+      `모바일 중심 반응형 UI 설계`,
+      `시맨틱 마크업 및 aria 속성을 활용한 접근성 고려`,
+      `Firebase Hosting을 통한 배포 및 환경 분리`,
     ],
-     techStack: [
+    techStack: [
       `React (Vite) + TypeScript + React Router v6`,
       `Firebase (Authentication, Firestore, Hosting)`,
-      `SCSS Modules + Mixin으로 반응형 대응`,
-      `Firebase 관련 로직을 서비스 파일로 분리 (ex. tweetService.ts, userService.ts)`,
-      `트윗 컴포넌트를 TweetHeader, TweetContent, TweetActions 등 기능 단위로 모듈화`,
-      `유틸 함수(파일 인코딩 등)는 util 디렉토리에서 공통 처리`,
-      `타입 정의 (TweetType, etc)를 types/에서 일괄 관리`,
-      `배포 전 자동 빌드 (npm run build) → firebase deploy`
+      `SCSS Modules 기반 컴포넌트 스타일 분리`,
+      `Firebase 로직을 서비스 레이어로 분리 (tweetService, userService 등)`,
+      `Tweet UI를 기능 단위 컴포넌트로 분리 (Header / Content / Actions)`,
+      `공통 타입(types/)과 유틸(util/) 분리로 유지보수성 강화`,
     ],
     issues: [
       {
-        title: `실시간 데이터 구독으로 수정/삭제 후 자동 반영 구현`,
-        summary:`트윗 수정이나 삭제가 이루어져도 프로필 페이지의 트윗 목록에는 실시간으로 반영되지 않음`,
+        title: `실시간 데이터 동기화 누락 문제 해결 (onSnapshot 도입)`,
+        summary:`트윗 수정/삭제 이후에도 일부 화면에서 최신 데이터가 즉시 반영되지 않는 문제 발생`,
         cause: [
           `getDocs()는 서버 상태를 한 번만 받아오기 때문에, 트윗 수정/삭제 이후에도 화면에는 이전 상태가 그대로 유지됨`
         ],
@@ -196,11 +194,10 @@ export const ProjectDetailData: ProjectDetail[] = [
       }
     ],
     reflection: [
-      `사용자 인터랙션부터 데이터 저장과 동기화까지, 서비스 전체 흐름을 직접 설계해본 의미 있는 프로젝트였습니다.`,
-      `단순히 UI를 구현하는 것을 넘어, Firebase와 연동한 실시간 데이터 관리, 권한 기반 편집 기능, 클라이언트 요금 최적화까지 고려하며 실제 서비스 구축 방식에 가까운 개발 경험을 할 수 있었습니다.`,
-      `특히 Firebase를 처음 연동하면서, 단순한 API 호출이 아니라 데이터 통신 방식의 특성과 과금 구조까지 이해해야 한다는 점을 체감했고, 코드 한 줄 한 줄의 책임과 무게를 인식하게 되었습니다.`,
-      `또한, 컴포넌트 추상화와 서비스 로직 분리, 타입 안전성을 확보한 구조로 리팩토링하며 코드 품질과 유지보수성에 대한 감각도 키울 수 있었습니다.
-        실시간 리스너 관리, 비동기 예외 처리, 접근성 개선 같은 실무에서 마주할 수 있는 고민들을 해결해가며, 프론트엔드 개발자로서의 사고 방식과 실력을 한층 성장시킬 수 있었던 프로젝트였습니다.`
+      `단순 UI 구현을 넘어, 인증/실시간 데이터/권한 제어가 결합된 서비스 구조를 처음부터 끝까지 설계해볼 수 있었습니다.`,
+      `특히 Firestore의 실시간 리스너 구조와 구독 해제 타이밍을 직접 다루며, 상태 동기화와 리소스 관리의 중요성을 체감했습니다.`,
+      `컴포넌트 분리, 서비스 레이어 분리, 타입 정의를 통해 코드 규모가 커져도 유지보수가 가능한 구조를 고민하게 되었습니다.`,
+      `이 경험을 바탕으로, 이후 실무에서도 데이터 흐름과 컴포넌트 책임을 먼저 설계하는 방식으로 접근하고자 합니다.`,
     ]
   },
   // {

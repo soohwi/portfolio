@@ -21,7 +21,7 @@ export const ProjectData: ProjectItem[] = [
     title: '포트폴리오',
     period: '약 3주',
     position: '1인 (기여도 100%)',
-    skill: ['React.js', 'TypeScript', 'SCSS', 'Firebase']
+    skill: ['React', 'TypeScript', 'SCSS', 'Firebase']
   },
   {
     id: 'hwitter',
@@ -30,7 +30,7 @@ export const ProjectData: ProjectItem[] = [
     title: 'Hwitter (SNS 클론)',
     period: '약 2주',
     position: '1인 (기여도 100%)',
-    skill: ['React(Vite 기반)', 'TypeScript', 'SCSS', 'Firebase']
+    skill: ['React', 'TypeScript', 'SCSS', 'Firebase']
   },
   // {
   //   id: 'movieApp',
