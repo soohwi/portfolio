@@ -94,6 +94,7 @@
 
       .homeTitle {
         > .text {
+          @include mixin.transform(translate3d(0, 0, 0));
           &:first-child {
             padding-left: 2rem;
             text-align: left;
@@ -168,9 +169,9 @@
       .homeContentInner {
         gap: 5rem 0;
 
-        strong {
-          display: block;
-        }
+        // strong {
+        //   display: inline-block;
+        // }
       }
     }
 
