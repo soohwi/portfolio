@@ -54,9 +54,9 @@ export const careerData: CareerItem[] = [
     ],
     projects: [
       '대한적십자사 e-HR 서비스 구축',
-      'GS칼텍스 통합 HR 플랫폼 구축',
+      'HCG HR 솔루션 고도화',
       'SK바이오사이언스 HR 서비스 구축',
-      'HCG HR 솔루션 고도화'
+      'GS칼텍스 통합 HR 플랫폼 구축',
     ],
     skills: ['Vue.js', 'JavaScript(ES6+)', 'SCSS(SASS)', 'HTML5', 'Figma'],
   },
@@ -84,10 +84,10 @@ export const careerData: CareerItem[] = [
       ]
     ],
     projects: [
+      '엠몬스타 신규 솔루션 구축',
       '내셔널지오그래픽몰 리뉴얼',
       'HAGO 쇼핑몰 리뉴얼',
       '패션플러스 리뉴얼',
-      '엠몬스타 신규 솔루션 구축'
     ],
     skills: ['JavaScript', 'jQuery', 'SCSS(SASS)', 'HTML5', 'Adobe XD'],
   }
