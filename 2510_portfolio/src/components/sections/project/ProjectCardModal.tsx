@@ -141,12 +141,12 @@ function ProjectCardModal({ item, detail }: ProjectCardModalProps) {
                       </dl>
                     )}
 
-                    {text.solution && (
-                      <dl className={styles.typeSolution}>
+                    {text.action && (
+                      <dl className={styles.typeaction}>
                         <dt>해결방법</dt>
                         <dd>
                           <ul className={styles.modalList}>
-                            {text.solution?.map((item, idx) => (
+                            {text.action?.map((item, idx) => (
                               <li key={idx}>{item}</li>
                             ))}
                           </ul>
@@ -164,41 +164,47 @@ function ProjectCardModal({ item, detail }: ProjectCardModalProps) {
           </section>
         )}
 
-        {/* 실무에서 겪은 문제 */}
-        {detail?.problem && detail.problem.length > 0 && (
-          <section className={styles.modalSection}>
-            <h5 className={styles.modalSubTitle}>실무에서 겪은 문제</h5>
+        {/* Problem */}
+        {detail?.problem && detail.problem.length > 0 && detail.problem.map((item, idx) => (
+          <section key={`problem-section-${idx}`} className={styles.modalSection}>
+            <h5 className={styles.modalSubTitle}>
+              Problem{item.title ? `: ${item.title}` : ''}
+            </h5>
             <ul className={styles.modalList}>
-              {detail.problem?.map((text, idx) => (
-                <li key={`problem-${idx}`}>{text}</li>
+              {item.contents.map((text, cIdx) => (
+                <li key={`problem-${idx}-${cIdx}`}>{text}</li>
               ))}
             </ul>
           </section>
-        )}
+        ))}
 
-        {/* 내가 했던 개선 */}
-        {detail?.solution && detail.solution.length > 0 && (
-          <section className={styles.modalSection}>
-            <h5 className={styles.modalSubTitle}>내가 했던 개선</h5>
+        {/* Action */}
+        {detail?.action && detail.action.length > 0 && detail.action.map((item, idx) => (
+          <section key={`action-section-${idx}`} className={styles.modalSection}>
+            <h5 className={styles.modalSubTitle}>
+              Action{item.title ? `: ${item.title}` : ''}
+            </h5>
             <ul className={styles.modalList}>
-              {detail.solution.map((text, idx) => (
-                <li key={`solution-${idx}`}>{text}</li>
+              {item.contents.map((text, cIdx) => (
+                <li key={`action-${idx}-${cIdx}`}>{text}</li>
               ))}
             </ul>
           </section>
-        )}
+        ))}
 
-        {/* 결과 */}
-        {detail?.outcome && detail.outcome.length > 0 && (
-          <section className={styles.modalSection}>
-            <h5 className={styles.modalSubTitle}>결과</h5>
+        {/* Result */}
+        {detail?.result && detail.result.length > 0 && detail.result.map((item, idx) => (
+          <section key={`result-section-${idx}`} className={styles.modalSection}>
+            <h5 className={styles.modalSubTitle}>
+              Result{item.title ? `: ${item.title}` : ''}
+            </h5>
             <ul className={styles.modalList}>
-              {detail.outcome.map((text, idx) => (
-                <li key={`outcome-${idx}`}>{text}</li>
+              {item.contents.map((text, cIdx) => (
+                <li key={`result-${idx}-${cIdx}`}>{text}</li>
               ))}
             </ul>
           </section>
-        )}
+        ))}
 
         {/* 회고 */}
         {detail?.reflection && detail.reflection.length > 0 && (

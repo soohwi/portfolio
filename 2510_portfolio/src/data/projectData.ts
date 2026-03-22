@@ -46,8 +46,9 @@ export const ProjectData: ProjectItem[] = [
     imgSrc: '/assets/images/project/work_thumb-hcg.png',
     comp: '(주)휴먼컨설팅그룹',
     title: '휴먼컨설팅그룹 HR 서비스 고도화',
-    period: '2024.10 - 진행 중',
-    skill: ['Vue', 'JavaScript(ES6+)', 'SCSS', 'HTML5', 'Figma']
+    period: '2024.10 - 2025.10 (12개월)',
+    position: '3인 (기여도 약 80%(SCSS), 70%(컴포넌트))',
+    skill: ['Vue.js', 'JavaScript(ES6+)', 'SCSS', 'Figma']
   },
   {
     id: 'skBio',
@@ -56,7 +57,7 @@ export const ProjectData: ProjectItem[] = [
     title: '"SK바이오사이언스" HR 서비스',
     period: '2024.07 - 2024.09 (2개월)',
     position: '1인 (기여도 100%)',
-    skill: ['Vue', 'JavaScript(ES6+)', 'SCSS', 'HTML5', 'Figma']
+    skill: ['Vue.js', 'JavaScript(ES6+)', 'SCSS', 'Figma']
   },
   {
     id: 'gs',
@@ -65,16 +66,16 @@ export const ProjectData: ProjectItem[] = [
     title: '"GS칼텍스" 통합 HR 플랫폼 개발',
     period: '2024.02 - 2024.08 (6개월)',
     position: '1인 (기여도 100%)',
-    skill: ['JavaScript(ES6+)', 'SCSS', 'HTML5', 'Figma']
+    skill: ['Vue.js', 'JavaScript(ES6+)', 'SCSS', 'Figma']
   },
   {
     id: 'mmon',
     imgSrc: '/assets/images/project/work_thumb-mmon.png',
     comp: '(주)엠몬스타',
-    title: '엠몬 솔루션 신규 구축 (회사 자체 솔루션)',
+    title: '커머스 전용 솔루션(이지옵스) 신규 구축 및 UI 아키텍처 수립',
     period: '2022.02 - 2023.01 (11개월)',
-    position: 'Project Leader (기여도 80%)',
-    skill: ['JavaScript', 'SCSS', 'HTML5', 'AdobeXD']
+    position: 'Project Leader / 5인 (기여도 70%)',
+    skill: ['JavaScript(ES6+)', 'SCSS', 'HTML5', 'AdobeXD']
   },
   {
     id: 'nStation',
@@ -82,17 +83,17 @@ export const ProjectData: ProjectItem[] = [
     comp: '(주)엠몬스타',
     title: '"내셔널지오그래픽" 온라인몰 리뉴얼',
     period: '2021.08 - 2021.12 (5개월)',
-    position: 'Project Leader (기여도 80%)',
-    skill: ['JavaScript', 'SCSS', 'HTML5', 'AdobeXD']
+    position: 'Project Leader / 2인 (기여도 80%)',
+    skill: ['JavaScript(ES6+)', 'SCSS', 'HTML5', 'AdobeXD']
   },
   {
     id: 'hago',
     imgSrc: '/assets/images/project/work_thumb-hago.png',
     comp: '(주)엠몬스타',
-    title: '"HAGO" 쇼핑몰 리뉴얼',
+    title: '"HAGO" 쇼핑몰 신규 구축',
     period: '2021.05 - 2021.08 (4개월)',
-    position: 'Project Leader (기여도 80%)',
-    skill: ['JavaScript', 'SCSS', 'HTML5', 'AdobeXD']
+    position: 'Project Leader / 3인 (기여도 80%)',
+    skill: ['JavaScript(ES6+)', 'SCSS', 'HTML5', 'AdobeXD']
   },
   {
     id: 'fp',
@@ -100,7 +101,7 @@ export const ProjectData: ProjectItem[] = [
     comp: '(주)엠몬스타',
     title: '"패션플러스" 2021 리뉴얼',
     period: '2020.09 - 2021.01 (5개월)',
-    position: 'Project Leader (기여도 80%)',
-    skill: ['JavaScript', 'jQuery', 'SCSS', 'HTML5', 'AdobeXD']
+    position: 'Project Leader / 3인 (기여도 80%)',
+    skill: ['JavaScript(ES6+)', 'SCSS', 'HTML5', 'AdobeXD']
   },
 ]

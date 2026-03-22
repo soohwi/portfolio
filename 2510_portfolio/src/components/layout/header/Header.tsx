@@ -6,34 +6,32 @@
 import clsx from 'clsx';
 import styles from './header.module.scss';
 import { useEffect, useState } from 'react';
+import InnerContainer from 'common/InnerContainer';
 
 function Header() {
   const [isVisible, setIsVisible] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const $home = document.querySelector('#home');
-      if (!$home) return;
+    const $home = document.querySelector('#home');
+    if (!$home) return;
 
-      if ($home instanceof HTMLElement) {
-        const homeHeight = $home.offsetHeight - 120;
-
-        // home 영역 지나면 header show
-        if (scrollY > homeHeight) {
-          setIsVisible(true);
-        } else {
-          setIsVisible(false);
-        }
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // home 영역(하단 120px 기준)을 벗어나면 header show
+        setIsVisible(!entry.isIntersecting);
+      },
+      {
+        rootMargin: '-120px 0px 0px 0px',
+        threshold: 0,
       }
-    };
+    );
 
-    window.addEventListener('scroll', handleScroll);
+    observer.observe($home);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
-    }
+      observer.disconnect();
+    };
   }, []);
 
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
@@ -44,7 +42,7 @@ function Header() {
       styles.header,
       isVisible ? styles.show : ''
     )}>
-      <div className={clsx(styles.headerInner, 'hwiInner')}>
+      <InnerContainer className={styles.headerInner}>
         <h1 className={styles.logo}><i className={styles.logoIcon}></i><span className={styles.logoTitle}>SOOHWI.DEV</span></h1>
 
         {/* 일반 GNB (데스크탑용) */}
@@ -69,7 +67,7 @@ function Header() {
             <li><a href="#career" onClick={closeMenu}>Career</a></li>
           </ul>
         </nav>
-      </div>
+      </InnerContainer>
     </header>
   )
 }

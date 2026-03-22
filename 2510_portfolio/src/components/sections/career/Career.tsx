@@ -6,11 +6,12 @@
 import styles from './career.module.scss';
 import clsx from 'clsx';
 import { careerData } from 'data/careerData';
+import InnerContainer from 'common/InnerContainer';
 
 function Career() {
   return (
     <section id="career" className={styles.career}>
-      <div className="hwiInner">
+      <InnerContainer>
         {/* 타이틀 */}
         <h2 className={clsx('hwiTitle', styles.careerTitle)}>Career</h2>
         {/*-- 타이틀 */}
@@ -32,8 +33,8 @@ function Career() {
                         <li key={`${item.id}-sum-${idx}`}>
                           {sentence.map((part, i) => (
                             part.bold ?
-                            <strong key={`${item.id}-sum-${idx}-${i}`}>{part.text}</strong>
-                            : <span key={`${item.id}-sum-${idx}-${i}`}>{part.text}</span>
+                              <strong key={`${item.id}-sum-${idx}-${i}`}>{part.text}</strong>
+                              : <span key={`${item.id}-sum-${idx}-${i}`}>{part.text}</span>
                           ))}
                         </li>
                       ))}
@@ -58,7 +59,7 @@ function Career() {
           </ol>
         </div>
         {/*-- 경력리스트 */}
-      </div>
+      </InnerContainer>
     </section>
   )
 }

@@ -5,11 +5,12 @@
 
 import styles from './skills.module.scss';
 import SkillsList from './SkillsList';
+import InnerContainer from 'common/InnerContainer';
 
 function Skills() {
   return (
     <section id="skills" className={styles.skills} aria-labelledby="skills-title">
-      <div className="hwiInner">
+      <InnerContainer>
         <div className={styles.skillsBox}>
           <div className={styles.skillsInner}>
             {/* 핵심 역량, 보유 기술 및 역량 */}
@@ -18,7 +19,7 @@ function Skills() {
             <SkillsList />
           </div>
         </div>
-      </div>
+      </InnerContainer>
     </section>
   );
 }

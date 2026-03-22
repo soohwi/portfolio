@@ -23,33 +23,32 @@ export interface SkillsItem {
 
 export const skillsData: SkillsItem[] = [
   {
-    id: 'Frontend',
-    title: 'Frontend',
+    id: 'Core',
+    title: 'Core',
     skills: [
+      { name: 'Vue.js' },
+      { name: 'JavaScript(ES6+)' },
       { name: 'HTML5' },
       { name: 'CSS3' },
-      { name: 'SCSS(SASS)' },
-      { name: 'JavaScript(ES6+)' },
-      { name: 'TypeScript', isLearning: true }
+      { name: 'SCSS/SASS' },
     ]
   },
   {
-    id: 'Framework',
-    title: 'Framework / Library',
+    id: 'Expanding',
+    title: 'Expanding',
     skills: [
-      { name: 'Vue.js' },
-      { name: 'React.js', isLearning: true }
+      { name: 'React.js', isLearning: true },
+      { name: 'TypeScript', isLearning: true },
+      { name: 'styled-components', isLearning: true }
     ]
   },
   {
     id: 'Tools',
-    title: 'Tools',
+    title: 'Design & Tools',
     skills: [
-      { name: 'VS Code' },
-      { name: 'Git' },
-      { name: 'GitHub' },
       { name: 'Figma' },
-      { name: 'Adobe XD' }
+      { name: 'Adobe XD' },
+      { name: 'Git/GitHub' }
     ]
   },
   {
@@ -71,25 +70,25 @@ export const skillsData: SkillsItem[] = [
         { text: '데이터 흐름을 고려한 UI 설계', bold: true },
         { text: ' 및 예외 케이스 처리 경험' },
       ],
+      // [
+      //   { text: '모바일 고도화 작업 과정에서 ' },
+      //   { text: '모달·테이블·폼 등의 공통 컴포넌트 구조를 정리', bold: true },
+      //   { text: '하고, 화면별 중복 UI를 개선' },
+      // ],
       [
-        { text: '모바일 고도화 작업 과정에서 ' },
-        { text: '모달·테이블·폼 등의 공통 컴포넌트 구조를 정리', bold: true },
-        { text: '하고, 화면별 중복 UI를 개선' },
-      ],
-      [
-        { text: '복잡한 폼·리스트 UI를 ' },
-        { text: '확장 가능한 구조로 설계', bold: true },
-        { text: '하고 공통화·리팩토링 관점에서 유지보수성 개선' },
+        { text: '모달·테이블·폼·리스트 등 반복 UI를 ' },
+        { text: '공통 컴포넌트로 구조화', bold: true },
+        { text: '하여 재사용성과 유지보수성을 개선' },
       ],
       [
         { text: '기획/디자인/백엔드와의 협업 과정에서 ' },
-        { text: '이슈를 원인 → 대안 → 합의로 정리', bold: true },
-        { text: '하며 커뮤니케이션 및 문제 해결' },
+        { text: '이슈를 원인과 대안 중심으로 정리', bold: true },
+        { text: '하며 합의점을 찾는 커뮤니케이션 방식을 실천' },
       ],
       [
-        { text: 'React.js + TypeScript는 개인 프로젝트로 ' },
-        { text: '컴포넌트 설계/상태 관리 패턴', bold: true },
-        { text: '을 학습하며 실무 확장 기반을 강화 중' },
+        { text: 'React.js + TypeScript는 포트폴리오 프로젝트를 통해 ' },
+        { text: '컴포넌트 설계와 상태 관리 패턴', bold: true },
+        { text: '을 학습하며 실전 적용을 준비 중' },
       ]
     ]
   }

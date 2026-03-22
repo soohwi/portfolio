@@ -12,6 +12,7 @@ import ProjectCard from './ProjectCard';
 import ProjectCardModal from './ProjectCardModal';
 import CommonModal from 'common/CommonModal';
 import { useModal } from 'hooks/useModal';
+import InnerContainer from 'common/InnerContainer';
 
 interface ProjectListProps {
   selectedTab: ProjectTabType;
@@ -31,9 +32,17 @@ function ProjectList({ selectedTab }: ProjectListProps) {
 
   // 슬라이더 이전/다음 컨트롤러
   const handleControl = (dir: 'prev' | 'next') => {
-    const scrollAmount = 310 + 20; // 카드 1개 너비 + 여백
+    const container = cardListRef.current;
+    if (!container || !container.children.length) return;
 
-    cardListRef.current?.scrollBy({
+    const firstCard = container.children[0] as HTMLElement;// 카드 넓이
+    const computedStyle = window.getComputedStyle(container);
+    const gap = parseInt(computedStyle.gap) || 0;// 여백
+
+    // 카드의 실제 너비 + 컨테이너의 gap
+    const scrollAmount = firstCard.offsetWidth + gap;
+
+    container.scrollBy({
       left: dir === 'next' ? scrollAmount : -scrollAmount,
       behavior: 'smooth',
     });
@@ -104,7 +113,7 @@ function ProjectList({ selectedTab }: ProjectListProps) {
       {/*-- 카드리스트 */}
 
       {/* 슬라이더 컨트롤러 */}
-      <div className="hwiInner">
+      <InnerContainer>
         <div className={styles.projectControl}>
           <ul>
             <li>
@@ -129,7 +138,7 @@ function ProjectList({ selectedTab }: ProjectListProps) {
             </li>
           </ul>
         </div>
-      </div>
+      </InnerContainer>
       {/*// 슬라이더 컨트롤러 */}
 
       {/* 모달 */}
@@ -137,7 +146,7 @@ function ProjectList({ selectedTab }: ProjectListProps) {
         isOpen={isOpen}
         onClose={close}
         modalTitle={selectedProject?.comp}
-        >
+      >
         {selectedProject &&
           <ProjectCardModal
             item={selectedProject}

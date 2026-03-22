@@ -3,14 +3,22 @@
  * useModal.tsx
 **/
 
-import { useState } from "react";
+import { useState, Dispatch, SetStateAction } from "react";
 
-export function useModal<T = unknown>() {
+export interface UseModalReturn<T> {
+  isOpen: boolean;
+  data: T | null;
+  open: (data?: T) => void;
+  close: () => void;
+  setData: Dispatch<SetStateAction<T | null>>;
+}
+
+export function useModal<T = unknown>(): UseModalReturn<T> {
   const [isOpen, setIsOpen] = useState(false);
   const [data, setData] = useState<T | null>(null);
 
-  const open = (data?: T)=> {
-    setData(data || null);
+  const open = (data?: T) => {
+    setData(data ?? null);
     setIsOpen(true);
   };
 

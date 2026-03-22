@@ -4,13 +4,14 @@
 **/
 
 import styles from './footer.module.scss';
+import InnerContainer from 'common/InnerContainer';
 
 function Footer() {
   return (
     <footer className={styles.footer}>
-      <div className="hwiInner">
+      <InnerContainer>
         푸터
-      </div>
+      </InnerContainer>
     </footer>
   )
 }

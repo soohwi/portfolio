@@ -42,7 +42,7 @@ function Home() {
   const starPositions = useMemo(() => {
     if (isMobile) return [];
 
-    return Array.from({length: 150}).map((_, i) => ({
+    return Array.from({ length: 150 }).map((_, i) => ({
       id: i,
       top: Math.random() * 100,
       left: Math.random() * 100,
@@ -232,11 +232,11 @@ function Home() {
         {/* 타이틀 */}
         <div className={clsx(styles.homeTitleBox, showTitle && !hideTitle && styles.visible)}>
           <div className={clsx(styles.homeTitle, styles.typeSolid)}>
-            <p ref={titleLineARef} className={styles.text}>PARK<br/> SOO HWI</p>
+            <p ref={titleLineARef} className={styles.text}>PARK<br /> SOO HWI</p>
             <p ref={titleLineBRef} className={styles.text}>FRONTEND</p>
           </div>
           <div className={clsx(styles.homeTitle, styles.typeBorder)}>
-            <p ref={titleLineARefBorder} className={styles.text}>PARK<br/> SOO HWI</p>
+            <p ref={titleLineARefBorder} className={styles.text}>PARK<br /> SOO HWI</p>
             <p ref={titleLineBRefBorder} className={styles.text}>FRONTEND</p>
           </div>
         </div>
@@ -244,32 +244,22 @@ function Home() {
 
         {/* 컨텐츠 */}
         <div className={clsx(styles.homeContent, (isMobile || showContent) && styles.visible)}>
-          {/* <div className={styles.homeContentInner}>
-            <p>
-              5년 이상의 <strong>B2C 커머스·플랫폼 퍼블리싱 경험</strong>을 통해 사용자 중심 UI 기본기를 쌓고,<br/>
-              이후 <strong>Vue.js 기반 B2B HR 서비스 실무 개발</strong>로 영역을 확장해온
-              프론트엔드 개발자 박수휘입니다.
-            </p>
-            <p>
-              커머스 환경에서의 UX 경험을 바탕으로,
-              HR 도메인에서는 사용자 역할(대표/관리자/사원)과 데이터 흐름을 고려한<br/>
-              <strong>권한·상태·승인 흐름을 포함한 업무 시스템 UI</strong>를 구현해왔으며,<br/>
-              복잡한 폼·리스트 화면을 유지보수 관점에서 구조화하고 개선해왔습니다.
-            </p>
-            <p>
-              디자인 구현에 그치지 않고 <strong>협업을 고려한 UI 구조 설계와 지속적인 품질 개선</strong>에 강점이 있으며,<br/>
-              React와 TypeScript는 개인 프로젝트를 통해 컴포넌트 구조와 상태 관리 패턴을 학습하며 기술 확장 기반을 다지고 있습니다.
-            </p>
-          </div> */}
+
           <div className={styles.homeContentInner}>
+
             <p>
-              5년 이상의 <strong>B2C 커머스·플랫폼 경험</strong>을 통해 사용자 중심 UI 기본기를 쌓고,<br/>
-              이후 <strong>Vue.js 기반 B2B HR 서비스 실무 개발</strong>로 영역을 확장해온
+              4년 6개월의 <strong>B2C 커머스 UI 설계 경험</strong>을 바탕으로,<br />
+              <strong>Vue.js 기반 B2B HR 서비스 개발</strong>까지 영역을 확장해온
               프론트엔드 개발자 박수휘입니다.
             </p>
-            <p>
-              디자인 구현에 그치지 않고 <strong>협업을 고려한 UI 구조 설계</strong>를 기반으로<br/>
+            {/* <p>
+              디자인 구현에 그치지 않고 <strong>협업을 고려한 UI 구조 설계</strong>를 기반으로<br />
               사용자 역할과 데이터 흐름을 반영한 <strong>유지보수 중심의 컴포넌트 구성</strong>에 강점이 있습니다.
+            </p> */}
+            <p>
+              비즈니스 로직과 UI 렌더링을 분리한 <strong>컴포넌트 아키텍처 설계</strong>,<br />
+              <strong>레거시 구조 개선</strong>을 통한 유지보수 효율화,<br />
+              문서화 기반의 <strong>팀 협업 가이드 정립</strong>에 강점이 있습니다.
             </p>
           </div>
         </div>
