@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ESNext"
+    ],
     "allowJs": false,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -9,22 +13,42 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "module": "ESNext",
-    "moduleResolution": "Node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
     "baseUrl": "./src",
-    "typeRoots": ["./node_modules/@types", "./src/types"],
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/types"
+    ],
     "paths": {
-      "styles/*": ["styles/*"],
-      "data/*": ["data/*"],
-      "hooks/*": ["hooks/*"],
-      "components/*": ["components/*"],
-      "common/*": ["components/common/*"],
-      "layout/*": ["components/layout/*"],
-      "sections/*": ["components/sections/*"],
+      "styles/*": [
+        "styles/*"
+      ],
+      "data/*": [
+        "data/*"
+      ],
+      "hooks/*": [
+        "hooks/*"
+      ],
+      "components/*": [
+        "components/*"
+      ],
+      "common/*": [
+        "components/common/*"
+      ],
+      "layout/*": [
+        "components/layout/*"
+      ],
+      "sections/*": [
+        "components/sections/*"
+      ],
     },
   },
-  "include": ["src", "scripts"]
+  "include": [
+    "src",
+    "scripts"
+  ]
 }
